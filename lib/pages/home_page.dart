@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../data/ProductProvider.dart';
 import 'Pos/pos_page.dart';
 import 'Oder/oder_page.dart';
