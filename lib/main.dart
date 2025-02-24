@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/HomePage.dart';
+import 'pages/hoem_page.dart';
 
 void main() {
   runApp(const RegisterApp());
@@ -16,7 +16,7 @@ class RegisterApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 58, 146, 183)),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
