@@ -17,7 +17,6 @@ class Product{
   ///Map<String, dynamic> 型のデータを Product オブジェクトに変換
   ///firestroeから持ってくる時のみしよう
   factory Product.fromFirestore(Map<String, dynamic> data) {
-
     return Product(
       name: data['name'] ?? 'Unknow', 
       stock: data['stock'] ?? 0,

@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../model/product.dart';
 
-class CounterStore with ChangeNotifier {
-  int counter = 0;
-
-  void incrementCounter() {   
-    counter++;
-    notifyListeners();
-  }
-}
+// ユーザー名を管理する Provider
+final productProvider = StateProvider<List<Product>>((ref) => "ゲスト");
