@@ -1,23 +1,28 @@
-import 'Product.dart';
-class SelectedProduct{
+import 'product.dart';
+
+class SelectedItems{
   ///商品(Product)
-  List<Product> product_objects;
+  List<Product> objects;
   ///オプションの番号
   int optionNumber;
   ///注文数(int)
   int oderPieces;
   ///商品の価格(int)
+  String? memo;
 
-  SelectedProduct({
-    required this.object,
+  SelectedItems({
+    required this.objects,
     required this.optionNumber,
     required this.oderPieces,
-    required this.memo,
+    this.memo,
   });
 
   ///小計計算
   int calculatSubtotal(){
-    int subtotal = this.object.price * this.oderPieces;
+    int subtotal = 0;
+    for(int i = 0; i < objects.length; i++){
+      subtotal += objects[i].price;
+    }
     return subtotal;
   }
 
@@ -29,10 +34,10 @@ class SelectedProduct{
     this.oderPieces -= 1;
   }
 
-  String getOptionString(){
-    return object.options[optionNumber];
-  }
-  
+    // String getOptionString(){
+    //   return objects.option[optionNumber];
+    // }
+    
   
 
 }
