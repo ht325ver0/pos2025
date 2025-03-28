@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../model/selected_item.dart';
+import '../model/product.dart';
 
 class CartWidget extends ConsumerWidget {
 
@@ -8,7 +10,6 @@ class CartWidget extends ConsumerWidget {
     required this.height,
     required this.width,
     required this.selectedProducts, 
-    required this.totalPrice,
     required this.onPush,
     required this.edit,
     }) : super(key: key);
@@ -16,31 +17,24 @@ class CartWidget extends ConsumerWidget {
   final height;
   final width;
   final List<SelectedItems> selectedProducts;
-  int totalPrice;
   Function onPush;
   bool edit;
 
-  @override
-  _CartWidgetState createState() => _CartWidgetState();
-}
-
-class _CartWidgetState extends State<CartWidget> {
-
   List getCartList(){
-    return widget.selectedProducts;
+    return selectedProducts;
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       color: Colors.white,
       width: 450,
       height: 500,
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: widget.selectedProducts.length,
+        itemCount: selectedProducts.length,
         itemBuilder: (context, index) {
-          final product = widget.selectedProducts[index];
+          final product = selectedProducts[index];
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0), // 間を開ける
             child: Container(
@@ -51,7 +45,7 @@ class _CartWidgetState extends State<CartWidget> {
                 borderRadius: BorderRadius.circular(20), // 角丸にする
               ),
               child: ListTile(
-                title: Text('${product.object.name} (${product.object.options[product.optionNumber]})',style:TextStyle(fontSize: 20)),
+                title: Text('${product.objects[product.optionNumber].name} (${product.objects[product.optionNumber].options})',style:TextStyle(fontSize: 20)),
                 subtitle: Text('個数: ${product.oderPieces}',style:TextStyle(fontSize: 18)),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -59,38 +53,38 @@ class _CartWidgetState extends State<CartWidget> {
                     Text('${product.calculatSubtotal()}円', style:TextStyle(fontSize: 16)),
                     
                     
-                    (widget.edit)?SizedBox(
+                    (edit)?SizedBox(
                       width: 70, // アイコンボタンの幅
                       height: 70, // アイコンボタンの高さ
                       child: IconButton(
                         icon: Icon(Icons.remove),
                         onPressed: () {
-                          setState(() {
-                            if (product.oderPieces > 1) {
-                              product.decPieces(); // 個数を1減らす
-                              widget.onPush();
-                            }
-                          });
+                          // setState(() {
+                          //   if (product.oderPieces > 1) {
+                          //     product.decPieces(); // 個数を1減らす
+                          //     widget.onPush();
+                          //   }
+                          // });
                         },
-                        iconSize: widget.width * 0.08,
+                        iconSize: width * 0.08,
                       ),
                     ):SizedBox(),
-                    (widget.edit)?SizedBox(
+                    (edit)?SizedBox(
                       width: 70, // アイコンボタンの幅
                       height: 70, // アイコンボタンの高さ
                       child: IconButton(
                         icon: Icon(Icons.add),
                         onPressed: () {
-                          setState(() {
-                            product.addPieces(); // 個数を1増やす
-                            widget.onPush();
-                          });
+                          // setState(() {
+                          //   product.addPieces(); // 個数を1増やす
+                          //   widget.onPush();
+                          // });
                         },
-                        iconSize: widget.width * 0.09, // アイコンの見た目のサイズ
+                        iconSize: width * 0.09, // アイコンの見た目のサイズ
                         padding: EdgeInsets.zero, // パディングをなくす
                       ),
                     ):SizedBox(),
-                    (widget.edit)?IconButton(
+                    (edit)?IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {
                         showDialog(
@@ -98,7 +92,7 @@ class _CartWidgetState extends State<CartWidget> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text("確認"),
-                              content: Text("この商品を本当に削除しますか？\n${product.object.name}"),
+                              content: Text("この商品を本当に削除しますか？\n${product.objects[product.optionNumber].name}"),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -110,10 +104,10 @@ class _CartWidgetState extends State<CartWidget> {
                                 TextButton(
                                   onPressed: () {
                                     // OKを押した場合の処理
-                                    setState(() {
-                                        widget.selectedProducts.remove(product);
-                                        widget.onPush();
-                                    });
+                                    // setState(() {
+                                    //     widget.selectedProducts.remove(product);
+                                    //     widget.onPush();
+                                    // });
                                     Navigator.of(context).pop(); // ダイアログを閉じる
                                   },
                                   child: Text("OK"),
@@ -123,7 +117,7 @@ class _CartWidgetState extends State<CartWidget> {
                           },
                         );
                       },
-                      iconSize: widget.width * 0.08,
+                      iconSize: width * 0.08,
                     ):SizedBox(),
 
                   ],

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '/widget/cart.dart';
 
 class PosPage extends ConsumerWidget {
   const PosPage({super.key});
+
+  void nullFunction(){
+
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,6 +25,8 @@ class PosPage extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(//合計金額
+                  width:200,
+                  height:100,
                   color: Colors.white,
                   child: Row(
                     children: [
@@ -29,7 +36,13 @@ class PosPage extends ConsumerWidget {
                     ]
                   ),
                 ),
-                //Cart()
+                CartWidget(
+                  width:200,
+                  height:100,
+                  onPush: nullFunction,
+                  edit: true,
+                  selectedProducts: [],
+                )
               ]
             ),
             //VerticalButtonList()//部位選択(選ばれた値が返ってくる),
